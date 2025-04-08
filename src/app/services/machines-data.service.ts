@@ -1,6 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, map, mergeMap, Observable, of, scan, tap } from 'rxjs';
-import { Machine, MachinePayload, MachineStatusFromWebSocketPayload } from '../interfaces/machine.interface';
+import {
+  Machine,
+  MachinePayload,
+  MachineStatusFromWebSocketPayload,
+} from '../interfaces/machine.interface';
 import { Socket } from 'ngx-socket-io';
 import { HttpClient } from '@angular/common/http';
 import { uuid } from '../interfaces/uuid.interface';

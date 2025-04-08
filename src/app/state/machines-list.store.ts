@@ -1,7 +1,7 @@
-import { Machine } from '../interfaces/machine.interface';
+import { Machine, MachinesListView } from '../interfaces/machine.interface';
 import { patchState, signalStore, withComputed, withHooks, withMethods, withProps } from '@ngrx/signals';
 import { MachinesDataService } from '../services/machines-data.service';
-import { computed, inject } from '@angular/core';
+import { computed, inject, signal, WritableSignal } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, tap } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -19,18 +19,19 @@ export const MachinesStore = signalStore(
     machinesDataService: inject(MachinesDataService),
   })),
 
-  withComputed(({ entities, entityMap, machineId }) => ({
-    sortedMachinesList: computed(() => MachinesUiMapperService.mapAndSortMachinesList(entities())),
+  withComputed(({ entityMap, machineId }) => ({
     selectedMachine: computed(() => entityMap()[machineId() ?? '']),
+    machineSignalsMap: computed(() => machineSignalMap),
   })),
 
-  withMethods(({ machinesDataService, ...store }) => ({
+  withMethods(({ machinesDataService, entityMap, ...store }) => ({
     loadMachines: rxMethod<void>(
       pipe(
         switchMap(() => machinesDataService.machines$),
         tap({
           next(machines) {
             patchState(store, setEntities(machines));
+            updateMachineSignals(MachinesUiMapperService.mapMachinesList(machines));
           },
         }),
       ),
@@ -43,3 +44,16 @@ export const MachinesStore = signalStore(
     },
   }),
 );
+
+const machineSignalMap = new Map<string, WritableSignal<MachinesListView>>();
+
+function updateMachineSignals(machines: MachinesListView[]) {
+  for (const machine of machines) {
+    const existing = machineSignalMap.get(machine.id);
+    if (existing) {
+      existing.set(machine);
+    } else {
+      machineSignalMap.set(machine.id, signal(machine));
+    }
+  }
+}

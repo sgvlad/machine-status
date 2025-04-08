@@ -1,0 +1,11 @@
+<mat-list-item>
+  <a
+    mat-stroked-button
+    [routerLink]="[machine().id]"
+    matBadge="{{ machine().numberOfStatusChanges }}"
+    matBadgeColor="accent"
+  >
+    {{ machine().name }}
+  </a>
+  <app-machine-status [status]="machine().latestStatus"></app-machine-status>
+</mat-list-item>

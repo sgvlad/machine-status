@@ -3,8 +3,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { MachineStatusComponent } from './machine-status/machine-status.component';
 import { MachinesStore } from '../state/machines-list.store';
+import { MachinesItemComponent } from './machine-item/machines-item.component';
 
 @Component({
   selector: 'app-machines',
@@ -12,9 +12,11 @@ import { MachinesStore } from '../state/machines-list.store';
   styleUrls: ['./machines.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterModule, MachineStatusComponent, MatListModule, MatBadgeModule, MatButtonModule],
+  imports: [RouterModule, MatListModule, MatBadgeModule, MatButtonModule, MachinesItemComponent],
 })
 export class MachinesComponent {
   readonly #machineStore = inject(MachinesStore);
-  sortedMachinesList = this.#machineStore.sortedMachinesList;
+
+  machineSignalsMap = this.#machineStore.machineSignalsMap;
+  machineIds = this.#machineStore.ids;
 }
