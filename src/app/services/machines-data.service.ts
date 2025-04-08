@@ -1,20 +1,20 @@
-import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject, map, mergeMap, Observable, of, scan, tap} from 'rxjs';
-import {Machine, MachinePayload, MachineStatusFromWebSocketPayload} from '../interfaces/machine.interface';
-import {Socket} from 'ngx-socket-io';
-import {HttpClient} from "@angular/common/http";
-import {uuid} from "../interfaces/uuid.interface";
-import {environment} from "../../environments/environment";
-import {MachinesMapperService} from './machines-mapper.service';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, map, mergeMap, Observable, of, scan, tap } from 'rxjs';
+import { Machine, MachinePayload, MachineStatusFromWebSocketPayload } from '../interfaces/machine.interface';
+import { Socket } from 'ngx-socket-io';
+import { HttpClient } from '@angular/common/http';
+import { uuid } from '../interfaces/uuid.interface';
+import { environment } from '../../environments/environment';
+import { MachinesMapperService } from './machines-mapper.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MachinesDataService {
-  private _socket = inject(Socket);
-  private _httpClient = inject(HttpClient);
-  private readonly _mapper = inject(MachinesMapperService);
-  private readonly _cache$ = new BehaviorSubject<Map<string, MachinePayload>>(new Map());
+  readonly #socket = inject(Socket);
+  readonly #httpClient = inject(HttpClient);
+  readonly #mapper = inject(MachinesMapperService);
+  readonly #cache$ = new BehaviorSubject<Map<string, MachinePayload>>(new Map());
 
   /**
    * Listens to the web socket machine status changes that triggers a backend request to take the machine name if it is not already cached and
@@ -31,36 +31,34 @@ export class MachinesDataService {
    *   Enriched output:        --A+--B+--A+--D+
    *                           (machine + name + statusHistory[] that accumulates)
    */
-  public machines$: Observable<Machine[]> = this._socket
-    .fromEvent<MachineStatusFromWebSocketPayload, 'MACHINE_STATUS_CHANGES'>('MACHINE_STATUS_CHANGES').pipe(
-      mergeMap(
-        machineStatusChange => this._getCachedMachine(machineStatusChange.id).pipe(
-          map(payload => this._mapper.toMachine(machineStatusChange, payload))
-        )
+  public machines$: Observable<Machine[]> = this.#socket
+    .fromEvent<MachineStatusFromWebSocketPayload, 'MACHINE_STATUS_CHANGES'>('MACHINE_STATUS_CHANGES')
+    .pipe(
+      mergeMap((machineStatusChange) =>
+        this._getCachedMachine(machineStatusChange.id).pipe(
+          map((payload) => this.#mapper.toMachine(machineStatusChange, payload)),
+        ),
       ),
-      scan(this._mapper.accumulateStatusHistory, [])
+      scan(this.#mapper.accumulateStatusHistory, []),
     );
-
 
   /** Get a single machine reactively, loads if not cached */
   private _getCachedMachine(id: string): Observable<MachinePayload> {
-    const cache = this._cache$.value;
+    const cache = this.#cache$.value;
     if (cache.has(id)) {
       return of(cache.get(id)!);
     }
 
     return this.getMachine(id).pipe(
-      tap(machine => {
-        const updated = new Map(this._cache$.value);
+      tap((machine) => {
+        const updated = new Map(this.#cache$.value);
         updated.set(id, machine);
-        this._cache$.next(updated);
-      })
+        this.#cache$.next(updated);
+      }),
     );
   }
 
   private getMachine(machineId: uuid) {
-    return this._httpClient.get<MachinePayload>(`${environment.urlBackend}/machines/${machineId}`);
+    return this.#httpClient.get<MachinePayload>(`${environment.urlBackend}/machines/${machineId}`);
   }
-
-
 }

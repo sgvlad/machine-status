@@ -1,11 +1,11 @@
-import {AsyncPipe, JsonPipe} from '@angular/common';
-import {HttpClient} from '@angular/common/http';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {Socket} from 'ngx-socket-io';
-import {Observable, scan, Subject} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
-import {MachinePayload, MachineStatusFromWebSocketPayload} from '../interfaces/machine.interface';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { Socket } from 'ngx-socket-io';
+import { Observable, scan, Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { MachinePayload, MachineStatusFromWebSocketPayload } from '../interfaces/machine.interface';
 
 @Component({
   selector: 'app-sandbox',

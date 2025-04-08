@@ -1,9 +1,9 @@
-import {computed, inject, Signal} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {signalStoreFeature, withComputed} from '@ngrx/signals';
-import {ParamsComputed, ParamsConfig} from './models';
-import {filter, map, startWith} from 'rxjs';
+import { computed, inject, Signal } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { signalStoreFeature, withComputed } from '@ngrx/signals';
+import { ParamsComputed, ParamsConfig } from './models';
+import { filter, map, startWith } from 'rxjs';
 
 /**
  * Creates a signal store feature that maps dynamic route parameters into computed signals.
@@ -34,7 +34,6 @@ export function withRouteParams<Config extends ParamsConfig>(config: Config) {
   );
 }
 
-
 /**
  * Returns a signal of route parameters extracted from the current URL.
  *
@@ -50,12 +49,12 @@ function injectRouteParams(): Signal<Record<string, string | undefined>> {
 
   // Create an observable that emits the current URL on each navigation end event
   const urlChanges$ = router.events.pipe(
-    filter(event => event instanceof NavigationEnd),
+    filter((event) => event instanceof NavigationEnd),
     map(() => router.url),
-    startWith(router.url)
+    startWith(router.url),
   );
 
-  const urlSignal = toSignal(urlChanges$, {initialValue: router.url});
+  const urlSignal = toSignal(urlChanges$, { initialValue: router.url });
 
-  return computed(() => ({machineId: urlSignal().replace('/machines/', '')}));
+  return computed(() => ({ machineId: urlSignal().replace('/machines/', '') }));
 }

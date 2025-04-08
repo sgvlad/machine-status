@@ -3,10 +3,7 @@ import { Signal } from '@angular/core';
 /**
  * Use this config to declare how to transform raw route param values into types you want (e.g., parse a number, enum, etc).
  */
-export type ParamsConfig = Record<
-  string,
-  (param: string | undefined) => unknown
->;
+export type ParamsConfig = Record<string, (param: string | undefined) => unknown>;
 
 /**
  * Takes a ParamsConfig and converts each entry into a Signal of the transformed value.

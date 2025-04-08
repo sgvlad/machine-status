@@ -1,9 +1,17 @@
-
 <mat-list>
   @for (machine of sortedMachines(); track machine) {
     <mat-list-item>
-      <a mat-stroked-button  [routerLink]="[machine.id]"  matBadge="{{machine.statusHistory.length}}" matBadgeColor="accent">{{ machine.name }}</a>
-      <app-machine-status [status]="machine.statusHistory[machine.statusHistory.length-1].status ?? MachineStatus.OFF"></app-machine-status>
+      <a
+        mat-stroked-button
+        [routerLink]="[machine.id]"
+        matBadge="{{ machine.statusHistory.length }}"
+        matBadgeColor="accent"
+      >
+        {{ machine.name }}
+      </a>
+      <app-machine-status
+        [status]="machine.statusHistory[machine.statusHistory.length - 1].status ?? MachineStatus.OFF"
+      ></app-machine-status>
     </mat-list-item>
   }
 </mat-list>

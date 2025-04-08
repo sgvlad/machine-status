@@ -7,17 +7,17 @@
         <dt class="title">Current status:</dt>
         <dd>
           <app-machine-status
-            [status]="machine.statusHistory[machine.statusHistory.length-1].status ?? MachineStatus.OFF"></app-machine-status>
+            [status]="machine.statusHistory[machine.statusHistory.length - 1].status ?? MachineStatus.OFF"
+          ></app-machine-status>
         </dd>
 
         <dt class="title">Statuses ({{ machine.statusHistory.length }})</dt>
 
         <dd>
           @for (status of machine.statusHistory; track status) {
-
             <div>
               <app-machine-status [status]="status.status"></app-machine-status>
-              {{ status.timeOfStatusChange | date:'h:mm:ss a' }}
+              {{ status.timeOfStatusChange | date: 'h:mm:ss a' }}
             </div>
           }
         </dd>
@@ -25,5 +25,5 @@
     </mat-card-content>
   </mat-card>
 } @else {
-  <mat-spinner/>
+  <mat-spinner />
 }

@@ -1,4 +1,4 @@
-import {uuid} from './uuid.interface';
+import { uuid } from './uuid.interface';
 
 export enum MachineStatus {
   ON = 'on',
@@ -22,11 +22,10 @@ export interface MachineStatusFromWebSocketPayload {
 export type Machine = {
   id: uuid;
   name?: string;
-  statusHistory: MachineStatusHistory[]
-}
+  statusHistory: MachineStatusHistory[];
+};
 
 export type MachineStatusHistory = {
   status: MachineStatus;
   timeOfStatusChange: Date;
-}
-
+};
