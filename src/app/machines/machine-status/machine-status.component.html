@@ -1,1 +1,1 @@
-<span class="machine-status">{{ status() | uppercase }}</span>
+<span class="machine-status" [ngStyle]="{'color': status() === MachineStatus.ON ? 'green' : 'red'}">{{ status() | uppercase }}</span>

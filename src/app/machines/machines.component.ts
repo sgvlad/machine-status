@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@angular/router';
-import { MachineStatus } from '../interfaces/machine.interface';
-import { MachineStatusComponent } from './machine-status/machine-status.component';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
+import {RouterModule} from '@angular/router';
+import {MachineStatus} from '../interfaces/machine.interface';
+import {MachineStatusComponent} from './machine-status/machine-status.component';
+import {MachinesStore} from '../state/machines-list.store';
 
 @Component({
   selector: 'app-machines',
@@ -15,5 +16,8 @@ import { MachineStatusComponent } from './machine-status/machine-status.componen
   imports: [RouterModule, MachineStatusComponent, MatListModule, MatBadgeModule, MatButtonModule],
 })
 export class MachinesComponent {
-  public MachineStatus = MachineStatus;
+  MachineStatus = MachineStatus;
+
+  readonly #machineStore = inject(MachinesStore);
+  sortedMachines = this. #machineStore.sortedMachines;
 }
