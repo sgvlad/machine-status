@@ -14,3 +14,7 @@ That's why I did some assumptions like:
 I am not happy with the machineSignalMap that I have created to avoid rendering of the DOM each time websocket emits.
 Because of the time constraints I will leave this solution.
 
+I would really like to know your thoughts and what were your expectations.
+
+Best regards,
+Vlad
