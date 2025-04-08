@@ -7,7 +7,7 @@
         <dt class="title">Current status:</dt>
         <dd>
           <app-machine-status
-            [status]="machine.statusHistory[machine.statusHistory.length - 1].status ?? MachineStatus.OFF"
+            [status]="machine.statusHistory[machine.statusHistory.length - 1].status"
           ></app-machine-status>
         </dd>
 

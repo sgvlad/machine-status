@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Machine, MachinePayload, MachineStatusFromWebSocketPayload } from '../interfaces/machine.interface';
 
 /**
- * Mapper service used to map the machine payloads from backend to the UI model.
+ * Mapper service used to map the machine payloads from backend to the store model.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class MachinesMapperService {
+export class MachinesStoreMapperService {
   toMachine(machineStatusChangePayload: MachineStatusFromWebSocketPayload, machinePayload: MachinePayload): Machine {
     return {
       id: machineStatusChangePayload.id,

@@ -1,17 +1,15 @@
 <mat-list>
-  @for (machine of sortedMachines(); track machine) {
+  @for (machine of sortedMachinesList(); track machine) {
     <mat-list-item>
       <a
         mat-stroked-button
         [routerLink]="[machine.id]"
-        matBadge="{{ machine.statusHistory.length }}"
+        matBadge="{{ machine.numberOfStatusChanges }}"
         matBadgeColor="accent"
       >
         {{ machine.name }}
       </a>
-      <app-machine-status
-        [status]="machine.statusHistory[machine.statusHistory.length - 1].status ?? MachineStatus.OFF"
-      ></app-machine-status>
+      <app-machine-status [status]="machine.latestStatus"></app-machine-status>
     </mat-list-item>
   }
 </mat-list>

@@ -19,13 +19,27 @@ export interface MachineStatusFromWebSocketPayload {
   status: MachineStatus;
 }
 
-export type Machine = {
+//----------------------------------------------------------------------------------------------------------------------
+//Store Model
+//----------------------------------------------------------------------------------------------------------------------
+export interface Machine {
   id: uuid;
-  name?: string;
+  name: string;
   statusHistory: MachineStatusHistory[];
-};
+}
 
-export type MachineStatusHistory = {
+export interface MachineStatusHistory {
   status: MachineStatus;
   timeOfStatusChange: Date;
-};
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+//UI Model
+//----------------------------------------------------------------------------------------------------------------------
+
+export interface MachinesListView {
+  id: uuid;
+  name: string;
+  numberOfStatusChanges: number;
+  latestStatus: MachineStatus;
+}

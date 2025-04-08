@@ -5,7 +5,7 @@ import { Socket } from 'ngx-socket-io';
 import { HttpClient } from '@angular/common/http';
 import { uuid } from '../interfaces/uuid.interface';
 import { environment } from '../../environments/environment';
-import { MachinesMapperService } from './machines-mapper.service';
+import { MachinesStoreMapperService } from './machines-store-mapper.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ import { MachinesMapperService } from './machines-mapper.service';
 export class MachinesDataService {
   readonly #socket = inject(Socket);
   readonly #httpClient = inject(HttpClient);
-  readonly #mapper = inject(MachinesMapperService);
+  readonly #mapper = inject(MachinesStoreMapperService);
   readonly #cache$ = new BehaviorSubject<Map<string, MachinePayload>>(new Map());
 
   /**

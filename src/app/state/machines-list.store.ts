@@ -8,6 +8,7 @@ import { switchMap } from 'rxjs/operators';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { setEntities, withEntities } from '@ngrx/signals/entities';
 import { withRouteParams } from './feature/route/route-params.feature';
+import { MachinesUiMapperService } from '../services/machines-ui-mapper.service';
 
 export const MachinesStore = signalStore(
   //for testing purpose only. Was left it here intentionally to be able to check the store with redux devtools.
@@ -19,7 +20,7 @@ export const MachinesStore = signalStore(
   })),
 
   withComputed(({ entities, entityMap, machineId }) => ({
-    sortedMachines: computed(() => Object.values(entities()).sort((a, b) => a.name!.localeCompare(b.name!))),
+    sortedMachinesList: computed(() => MachinesUiMapperService.mapAndSortMachinesList(entities())),
     selectedMachine: computed(() => entityMap()[machineId() ?? '']),
   })),
 
